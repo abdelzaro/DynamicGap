@@ -1,0 +1,6 @@
+devel_space: /home/power20/dynamic_gap/devel
+install: false
+install_space: /home/power20/dynamic_gap/install
+profile: default
+source_space: /home/power20/dynamic_gap/src
+workspace: /home/power20/dynamic_gap
