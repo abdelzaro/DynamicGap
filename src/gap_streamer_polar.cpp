@@ -117,12 +117,12 @@ private:
       m.left_angle  = idx2ang(g->LIdx());
       m.left_range  = g->LRange();
 
-      // width in Euclidean space (optional but handy)
-      float rX =  m.right_range * std::cos(m.right_angle);
-      float rY =  m.right_range * std::sin(m.right_angle);
-      float lX =  m.left_range  * std::cos(m.left_angle );
-      float lY =  m.left_range  * std::sin(m.left_angle );
-      m.width  = std::hypot(lX - rX, lY - rY);
+      // width in Euclidean space (optional but handy) 
+      // float rX =  m.right_range * std::cos(m.right_angle);
+      // float rY =  m.right_range * std::sin(m.right_angle);
+      // float lX =  m.left_range  * std::cos(m.left_angle );
+      // float lY =  m.left_range  * std::sin(m.left_angle );
+      // m.width  = std::hypot(lX - rX, lY - rY);
 
       out.gaps.push_back(m);
     }

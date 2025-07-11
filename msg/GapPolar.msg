@@ -5,4 +5,4 @@ float32 left_angle
 float32 left_range
 
 # convenience: Euclidean width of the gap  (m)
-float32 width
+# float32 width 
