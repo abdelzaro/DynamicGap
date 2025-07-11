@@ -5,6 +5,9 @@
 #include <dynamic_gap/GapPolarArray.h>               // auto-generated
 #include <dynamic_gap/GapPolar.h>
 
+#include <visualization_msgs/MarkerArray.h>
+#include <visualization_msgs/Marker.h>
+
 using namespace dynamic_gap;
 
 class GapStreamerPolar
@@ -79,6 +82,8 @@ public:
 
     scan_sub_ = nh_.subscribe("/r1/front_laser/scan", 5, &GapStreamerPolar::scanCB, this);
     gap_pub_  = nh_.advertise<dynamic_gap::GapPolarArray>("simplified_gaps", 5);
+    gap_marker_pub_ = nh_.advertise<visualization_msgs::MarkerArray>("gap_markers", 5);
+
   }
 
 private:
@@ -124,7 +129,36 @@ private:
 
     gap_pub_.publish(out);
     ROS_INFO_STREAM("Published " << out.gaps.size() << " gaps");
+    
+    // ----- Visualization -----
+    visualization_msgs::MarkerArray markers;
+    int id = 0;
+    for (const auto& gap : out.gaps)
+    {
+      visualization_msgs::Marker marker;
+      marker.header = out.header;
+      marker.ns = "gaps";
+      marker.id = id++;
+      marker.type = visualization_msgs::Marker::LINE_STRIP;
+      marker.action = visualization_msgs::Marker::ADD;
+      marker.scale.x = 0.05;
+      marker.color.r = 1.0;
+      marker.color.g = 1.0;
+      marker.color.b = 0.0;
+      marker.color.a = 1.0;
 
+      geometry_msgs::Point p1, p2;
+      p1.x = gap.right_range * std::cos(gap.right_angle);
+      p1.y = gap.right_range * std::sin(gap.right_angle);
+      p2.x = gap.left_range  * std::cos(gap.left_angle);
+      p2.y = gap.left_range  * std::sin(gap.left_angle);
+
+      marker.points.push_back(p1);
+      marker.points.push_back(p2);
+
+      markers.markers.push_back(marker);
+    }
+    gap_marker_pub_.publish(markers);
 
     // free memory allocated by GapDetector
     for (Gap* g : raw)  delete g;
@@ -135,6 +169,7 @@ private:
   ros::NodeHandle  nh_, pnh_;
   ros::Subscriber   scan_sub_;
   ros::Publisher    gap_pub_;
+  ros::Publisher   gap_marker_pub_; 
 
   dynamic_gap::DynamicGapConfig cfg_;
   std::unique_ptr<GapDetector>       gap_detector_;
