@@ -12,6 +12,10 @@ set(CATKIN_PACKAGE_DEPENDENCIES
   rospy
   pedsim_msgs
   dynamic_reconfigure
+  message_generation
+  std_msgs
+  sensor_msgs
+  geometry_msgs
 )
 
 find_package(catkin REQUIRED COMPONENTS
@@ -30,6 +34,24 @@ generate_dynamic_reconfigure_options(
   cfg/EstimationParameters.cfg
 )
 
+########################################################
+## Declare ROS messages, services, and actions        ##
+########################################################
+
+add_message_files(
+  FILES
+  GapPolar.msg
+  GapPolarArray.msg
+)
+
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+  geometry_msgs
+  sensor_msgs
+)
+
+
 ###################################
 ## catkin specific configuration ##
 ###################################
@@ -43,6 +65,8 @@ catkin_package(
     ${PROJECT_NAME}
   CATKIN_DEPENDS
     ${CATKIN_PACKAGE_DEPENDENCIES}
+    message_runtime  # <--- ADD THIS
+
 )
 
 ###########
@@ -89,3 +113,20 @@ target_link_libraries(${PROJECT_NAME}
 	${catkin_LIBRARIES}
 	${PYTHON_LIBRARIES}
 )
+
+############
+##  NODE for testing ## 
+############
+
+add_executable(gap_streamer_polar src/gap_streamer_polar.cpp)
+
+target_link_libraries(gap_streamer_polar
+    ${catkin_LIBRARIES}
+    ${PROJECT_NAME}           # Link to the dynamic_gap library you built above
+)
+
+add_dependencies(gap_streamer_polar
+    ${${PROJECT_NAME}_EXPORTED_TARGETS}
+    ${catkin_EXPORTED_TARGETS}
+)
+
