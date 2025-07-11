@@ -35,7 +35,7 @@ generate_dynamic_reconfigure_options(
 )
 
 ########################################################
-## Declare ROS messages, services, and actions        ##
+## Declare ROS messages, services, and actions        ## 
 ########################################################
 
 add_message_files(
@@ -66,6 +66,8 @@ catkin_package(
   CATKIN_DEPENDS
     ${CATKIN_PACKAGE_DEPENDENCIES}
     message_runtime  # <--- ADD THIS
+    std_msgs
+    geometry_msgs
 
 )
 

@@ -26,7 +26,7 @@ public:
     cfg_.scan_topic       = "TBD";
     cfg_.ped_topic        = "/pedsim_simulator/simulated_agents";
 
-    cfg_.rbt.r_inscr      = 0.2f;
+    cfg_.rbt.r_inscr      = 0.13f; // see documentation 0711 robot radius
     cfg_.rbt.vx_absmax    = 1.0f;
     cfg_.rbt.vy_absmax    = 1.0f;
     cfg_.rbt.vang_absmax  = 1.0f;
@@ -39,7 +39,7 @@ public:
     cfg_.scan.full_scan_f     = 512.0f;
     cfg_.scan.angle_increment = (2 * M_PI) / (cfg_.scan.full_scan_f - 1);
     cfg_.scan.range_min       = 0.03f;
-    cfg_.scan.range_max       = -1e10f;
+    cfg_.scan.range_max       = 5.0f;
 
     cfg_.planning.gap_prop                = 1;
     cfg_.planning.pursuit_guidance_method = 1;
@@ -77,7 +77,7 @@ public:
 
     gap_detector_.reset(new GapDetector(cfg_));
 
-    scan_sub_ = nh_.subscribe("scan", 5, &GapStreamerPolar::scanCB, this);
+    scan_sub_ = nh_.subscribe("/r1/front_laser/scan", 5, &GapStreamerPolar::scanCB, this);
     gap_pub_  = nh_.advertise<dynamic_gap::GapPolarArray>("simplified_gaps", 5);
   }
 
