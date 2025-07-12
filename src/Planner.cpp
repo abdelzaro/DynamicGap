@@ -547,7 +547,7 @@ void Planner::jointPoseAccCB(const nav_msgs::Odometry::ConstPtr & rbtOdomMsg,
             // ROS_INFO_STREAM_NAMED("Planner", "      outgoing pose: (" << agentPoseRobotFrame.pose.position.x << ", " << agentPoseRobotFrame.pose.position.y << ")");
 
             // ROS_INFO_STREAM("updating " << agentNamespace << " odom from " << agent_odom_vects.at(agentID)[0] << ", " << agent_odom_vects.at(agentID)[1] << " to " << odom_vect[0] << ", " << odom_vect[1]);
-            currentTrueAgentPoses_[agentIState.id] = agentPoseRobotFrame.pose;
+            currentTrueAgentPoses_[std::to_string(agentIState.id)] = agentPoseRobotFrame.pose;
 
             // std::cout << "in agentOdomCB" << std::endl;
             // std::cout << "transforming from " << source_frame << " to " << cfg_.robot_frame_id << std::endl;
@@ -558,7 +558,8 @@ void Planner::jointPoseAccCB(const nav_msgs::Odometry::ConstPtr & rbtOdomMsg,
             tf2::doTransform(agentVelMsgFrame, agentVelRobotFrame, msgFrame2RobotFrame);
             // std::cout << "outcoming vector: " << agentVelRobotFrame.vector.x << ", " << agentVelRobotFrame.vector.y << std::endl;
 
-            currentTrueAgentVels_[agentIState.id] = agentVelRobotFrame;
+            currentTrueAgentVels_[std::to_string(agentIState.id)] = agentVelRobotFrame;
+
         
         }
 
