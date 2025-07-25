@@ -1,0 +1,13 @@
+<launch>
+  <group ns="r1">
+    <!-- Start the gap streamer under namespace /r1/... -->
+    <node pkg="dynamic_gap" type="gap_streamer_polar" name="gap_streamer_polar" output="screen">
+      <param name="robot_name" value="r1" />
+    </node>
+
+    <!-- Optional: visualize the gaps in RViz -->
+    <!--
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find dynamic_gap)/rviz/gap_display.rviz" />
+    -->
+  </group>
+</launch>

@@ -16,17 +16,15 @@ public:
   GapStreamerPolar(const ros::NodeHandle& nh, const ros::NodeHandle& pnh)
   : nh_(nh), pnh_(pnh)
   {
-    // ── (1)  load or hard-code the Dynamic-Gap config ────────────────
-    // cfg_.loadRosParamFromNodeHandle("gap_streamer_polar");
+    std::string robot_name; // for parallel training
+    pnh_.param<std::string>("robot_name", robot_name, "r1");
 
-    // Fill cfg_
-    cfg_.map_frame_id     = "map";
-    cfg_.odom_frame_id    = "TBD";
-    cfg_.robot_frame_id   = "TBD";
-    cfg_.sensor_frame_id  = "TBD";
-    cfg_.odom_topic       = "TBD";
-    cfg_.acc_topic        = "TBD";
-    cfg_.scan_topic       = "TBD";
+    cfg_.odom_frame_id    = robot_name + "/odom";
+    cfg_.robot_frame_id   = robot_name + "/base_link";
+    cfg_.sensor_frame_id  = robot_name + "/front_laser";
+    cfg_.odom_topic       = "/" + robot_name + "/odom";
+    cfg_.scan_topic       = "/" + robot_name + "/front_laser/scan";
+
     cfg_.ped_topic        = "/pedsim_simulator/simulated_agents";
 
     cfg_.rbt.r_inscr      = 0.13f; // see documentation 0711 robot radius
@@ -80,7 +78,7 @@ public:
 
     gap_detector_.reset(new GapDetector(cfg_));
 
-    scan_sub_ = nh_.subscribe("/r1/front_laser/scan", 5, &GapStreamerPolar::scanCB, this);
+    scan_sub_ = nh_.subscribe(cfg_.scan_topic, 5, &GapStreamerPolar::scanCB, this);
     gap_pub_  = nh_.advertise<dynamic_gap::GapPolarArray>("simplified_gaps", 5);
     gap_marker_pub_ = nh_.advertise<visualization_msgs::MarkerArray>("gap_markers", 5);
 

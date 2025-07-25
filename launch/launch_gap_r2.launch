@@ -1,0 +1,7 @@
+<launch>
+  <group ns="r2">
+    <node pkg="dynamic_gap" type="gap_streamer_polar" name="gap_streamer_polar" output="screen">
+      <param name="robot_name" value="r2" />
+    </node>
+  </group>
+</launch>
