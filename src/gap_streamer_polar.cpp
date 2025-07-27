@@ -128,7 +128,7 @@ private:
     }
 
     gap_pub_.publish(out);
-    ROS_INFO_STREAM("Published " << out.gaps.size() << " gaps");
+    // ROS_INFO_STREAM("Published " << out.gaps.size() << " gaps");
     
     // ----- Visualization -----
     visualization_msgs::MarkerArray markers;
