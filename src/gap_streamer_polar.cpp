@@ -34,13 +34,13 @@ public:
     cfg_.rbt.vy_absmax    = 1.0f;
     cfg_.rbt.vang_absmax  = 1.0f;
 
-    cfg_.scan.angle_min       = -M_PI;
-    cfg_.scan.angle_max       =  M_PI;
-    cfg_.scan.half_scan       = 256;
-    cfg_.scan.half_scan_f     = 256.0f;
-    cfg_.scan.full_scan       = 512;
-    cfg_.scan.full_scan_f     = 512.0f;
-    cfg_.scan.angle_increment = (2 * M_PI) / (cfg_.scan.full_scan_f - 1);
+    cfg_.scan.angle_min       = -1.5708;
+    cfg_.scan.angle_max       =  1.5708;
+    cfg_.scan.half_scan       = 180;
+    cfg_.scan.half_scan_f     = 180.0f;
+    cfg_.scan.full_scan       = 360;
+    cfg_.scan.full_scan_f     = 360.0f;
+    cfg_.scan.angle_increment =  (cfg_.scan.angle_max - cfg_.scan.angle_min) / (cfg_.scan.full_scan_f - 1);
     cfg_.scan.range_min       = 0.03f;
     cfg_.scan.range_max       = 5.0f;
 

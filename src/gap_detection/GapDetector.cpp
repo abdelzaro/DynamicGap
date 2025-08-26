@@ -172,16 +172,17 @@ namespace dynamic_gap
         }
         
         // Bridge the last gap around
-        if (bridgeCondition(rawGaps))
-        {
-            ROS_INFO_STREAM_NAMED("GapDetector", "    bridging first and last gaps");
-            rawGaps.back()->addLeftInformation(rawGaps.front()->LIdx(), rawGaps.front()->LRange());
+        // abdel: commented out because working with 180 deg scan 
+        // if (bridgeCondition(rawGaps))
+        // {
+        //     ROS_INFO_STREAM_NAMED("GapDetector", "    bridging first and last gaps");
+        //     rawGaps.back()->addLeftInformation(rawGaps.front()->LIdx(), rawGaps.front()->LRange());
             
-            // delete first gap
-            delete *rawGaps.begin();
-            rawGaps.erase(rawGaps.begin());
-            ROS_INFO_STREAM_NAMED("GapDetector", "revising last gap: (" << rawGaps.back()->RIdx() << ", " << rawGaps.back()->RRange() << "), to (" << rawGaps.back()->LIdx() << ", " << rawGaps.back()->LRange() << ")");                
-        }
+        //     // delete first gap
+        //     delete *rawGaps.begin();
+        //     rawGaps.erase(rawGaps.begin());
+        //     ROS_INFO_STREAM_NAMED("GapDetector", "revising last gap: (" << rawGaps.back()->RIdx() << ", " << rawGaps.back()->RRange() << "), to (" << rawGaps.back()->LIdx() << ", " << rawGaps.back()->LRange() << ")");                
+        // }
 
         return rawGaps;
     }
